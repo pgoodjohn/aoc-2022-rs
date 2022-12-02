@@ -15,9 +15,11 @@ struct Cli {
 #[derive(Subcommand)]
 enum Commands {
     One,
+    Two,
 }
 
 mod one;
+mod two;
 
 fn main() {
     let cli = Cli::parse();
@@ -45,7 +47,25 @@ fn main() {
                     log::error!("Something went wrong: {:?}", e);
                 }
             }
-        },
+        }
+        Some(Commands::Two) => {
+            match two::part_one() {
+                Ok(r) => {
+                    log::info!("Day Two Part One successful! Result is: {}", r);
+                }
+                Err(e) => {
+                    log::error!("Something went wrong: {:?}", e);
+                }
+            }
+            match two::part_two() {
+                Ok(r) => {
+                    log::info!("Day Two Part Two successful! Result is: {}", r);
+                }
+                Err(e) => {
+                    log::error!("Something went wrong: {:?}", e);
+                }
+            }
+        }
         None => {} // Handled by Clap
     }
 }

@@ -42,7 +42,7 @@ pub fn run_part_two() -> Result<String, Box<dyn std::error::Error>> {
 }
 
 fn parse_input() -> Result<Vec<i32>, Box<dyn ::std::error::Error>> {
-    let input_file = std::fs::File::open("./one/input.txt")?;
+    let input_file = std::fs::File::open("./src/one/input.txt")?;
     let reader = std::io::BufReader::new(input_file);
 
     let mut current_total: i32 = 0;
