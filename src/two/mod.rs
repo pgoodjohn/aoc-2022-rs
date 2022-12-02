@@ -5,6 +5,34 @@ use std::io::prelude::*;
 use std::str::FromStr;
 use std::string::ToString;
 
+use clap::{Parser, Subcommand};
+
+#[derive(Parser)]
+#[clap(arg_required_else_help(true))]
+pub struct DayTwoCommand {
+    #[clap(short, long, global = true)]
+    debug: bool,
+
+    #[clap(subcommand)]
+    command: Option<DayTwoCommands>,
+}
+
+#[derive(Subcommand)]
+pub enum DayTwoCommands {
+    One {},
+    Two {},
+}
+
+pub fn command(command: &DayTwoCommand) -> Result<String, Box<dyn std::error::Error>> {
+    match command.command {
+        Some(DayTwoCommands::One {}) => part_one(),
+        Some(DayTwoCommands::Two {}) => part_two(),
+        None => {
+            panic!("Handled by clap");
+        }
+    }
+}
+
 #[derive(Debug)]
 enum Shape {
     Rock,

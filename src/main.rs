@@ -14,11 +14,13 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    One,
-    Two,
+    Template(template::TemplateCommand),
+    One(one::DayOneCommand),
+    Two(two::DayTwoCommand),
 }
 
 mod one;
+mod template;
 mod two;
 
 fn main() {
@@ -29,42 +31,14 @@ fn main() {
     log::info!("Welcome to the Advent of Code 2022 Solutions Program");
 
     match cli.command {
-        Some(Commands::One) => {
-            match one::run_part_one() {
-                Ok(r) => {
-                    log::info!("Day One Part One successful! Result is: {}", r);
-                }
-                Err(e) => {
-                    log::error!("Something went wrong: {:?}", e);
-                }
-            }
-
-            match one::run_part_two() {
-                Ok(r) => {
-                    log::info!("Day One Part Two successful! Result is: {}", r);
-                }
-                Err(e) => {
-                    log::error!("Something went wrong: {:?}", e);
-                }
-            }
+        Some(Commands::Template(command)) => {
+            template::command(&command);
         }
-        Some(Commands::Two) => {
-            match two::part_one() {
-                Ok(r) => {
-                    log::info!("Day Two Part One successful! Result is: {}", r);
-                }
-                Err(e) => {
-                    log::error!("Something went wrong: {:?}", e);
-                }
-            }
-            match two::part_two() {
-                Ok(r) => {
-                    log::info!("Day Two Part Two successful! Result is: {}", r);
-                }
-                Err(e) => {
-                    log::error!("Something went wrong: {:?}", e);
-                }
-            }
+        Some(Commands::One(command)) => {
+            one::command(&command);
+        }
+        Some(Commands::Two(command)) => {
+            two::command(&command);
         }
         None => {} // Handled by Clap
     }

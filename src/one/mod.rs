@@ -1,7 +1,35 @@
 use log;
 use std::io::prelude::*;
 
-pub fn run_part_one() -> Result<String, Box<dyn std::error::Error>> {
+use clap::{Parser, Subcommand};
+
+#[derive(Parser)]
+#[clap(arg_required_else_help(true))]
+pub struct DayOneCommand {
+    #[clap(short, long, global = true)]
+    debug: bool,
+
+    #[clap(subcommand)]
+    command: Option<DayOneCommands>,
+}
+
+#[derive(Subcommand)]
+pub enum DayOneCommands {
+    One {},
+    Two {},
+}
+
+pub fn command(command: &DayOneCommand) -> Result<String, Box<dyn std::error::Error>> {
+    match command.command {
+        Some(DayOneCommands::One {}) => part_one(),
+        Some(DayOneCommands::Two {}) => part_two(),
+        None => {
+            panic!("Handled by clap");
+        }
+    }
+}
+
+pub fn part_one() -> Result<String, Box<dyn std::error::Error>> {
     log::info!("Day One Part One");
 
     let mut all_totals = parse_input()?;
@@ -21,7 +49,7 @@ pub fn run_part_one() -> Result<String, Box<dyn std::error::Error>> {
     }
 }
 
-pub fn run_part_two() -> Result<String, Box<dyn std::error::Error>> {
+pub fn part_two() -> Result<String, Box<dyn std::error::Error>> {
     log::info!("Day One Part Two");
 
     let mut all_totals = parse_input()?;
